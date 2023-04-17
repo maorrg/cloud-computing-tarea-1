@@ -10,7 +10,8 @@ port=3000
 password=12345
 
 # Set the name of the virtual machine to monitor and migrate
-vm_name=my_vm
+vm_host_name=ubuntu2
+vm_name=ubuntu
 
 while true
 do
@@ -24,6 +25,8 @@ do
   if [ "$cpu_usage" -gt "$cpu_threshold" ] && [ "$memory_usage" -gt "$memory_threshold" ]
   then
     echo "CPU usage for $vm_name is above the threshold of $cpu_threshold% and memory usage is above the threshold of $memory_threshold% - triggering live migration..."
+    #Prepare the host vm machine
+    VBoxManage modifyvm $vm_host_name --teleporter on --teleporterport $port --teleporterpassword $password
     
     # Initiate a live migration to the specified host
     VBoxManage controlvm $vm_name teleport --host $destination_host --port $port --password $password
