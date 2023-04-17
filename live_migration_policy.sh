@@ -6,6 +6,8 @@ memory_threshold=75
 
 # Set the destination host for the live migration
 destination_host=192.168.1.100
+port=3000
+password=12345
 
 # Set the name of the virtual machine to monitor and migrate
 vm_name=my_vm
@@ -24,7 +26,7 @@ do
     echo "CPU usage for $vm_name is above the threshold of $cpu_threshold% and memory usage is above the threshold of $memory_threshold% - triggering live migration..."
     
     # Initiate a live migration to the specified host
-    VBoxManage controlvm $vm_name migrate --live $destination_host
+    VBoxManage controlvm $vm_name teleport --host $destination_host --port $port --password $password
     
     echo "Live migration completed."
   fi
